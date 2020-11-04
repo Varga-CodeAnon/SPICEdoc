@@ -73,7 +73,8 @@ Sur le bandeau de droite, cliqué sur l'icone qui ressemble à une prise (le sec
 
 ## Entrainement 
 ### Recopiez le schéma suivant
-![Schéma du TP1](src/schema.png)
+
+![Schéma du TP1](https://github.com/Varga-CodeAnon/SPICEdoc/blob/main/src/schema.png)
 
 L'idée est de recréer ce schéma. Pour se faire :
 1. Dans un premier temps, placez les composants comme vu précédemment sans vous soucier de leur valeur (les composants sont `VAC/SOURCE`, `R`, `C` et `0` dans le menu *ground*).
@@ -125,7 +126,8 @@ Pour réaliser une simulation :
     ```
 
 On obtient alors le résultat final suivant :
-![Courbe finale](src/courbe.png)
+
+![Courbe finale](https://github.com/Varga-CodeAnon/SPICEdoc/blob/main/src/courbe.png)
 
 ### Bonus : Manipulations d'analyse et de comparaisons de courbes
 
