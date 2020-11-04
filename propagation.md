@@ -20,6 +20,7 @@ tags:
   - [Entrainement](#entrainement)
     - [Recopiez le schéma suivant](#recopiez-le-schéma-suivant)
     - [Simulation](#simulation)
+    - [Bonus : Manipulations d'analyse et de comparaisons de courbes](#bonus--manipulations-danalyse-et-de-comparaisons-de-courbes)
 
 ## Installation
 
@@ -95,36 +96,51 @@ L'idée est de recréer ce schéma. Pour se faire :
 > Pensez à sauvegarder régulièrement
 
 ### Simulation
-Puis, New simulation, donner un nom de cours, et éditer les propriétés de simulation
 
-On choisit AC/sweep noise
-On coche general setting
-Logarithmique, decade, 10 jusqu'à 100k hertz
+Pour réaliser une simulation :
 
-PSpice, create netlist. Si tout est bon on ne devrait pas avoir de messages d'erreurs
-Puis view netlist
+1. Dans la seconde barre d'outils supérieure, juste a côté de la barre de menu de sélection grisée, cliquez sur l'icone représentant une fenêtre a bandeau bleu avec une petite étoile dans le coin supérieur gauche, et intitulé *New Simulation*
+2. Donnez un nom court, laissez *none* dans *Inherit*, puis cliquez sur *Create*
+   
+   A ce moment là, le texte `TP1-<nom choisi>` apparait à gauche de l'icone *New Simulation* dans le menu déroulant *Active Profile*
+3. Éditez les propriétés de la simulation dans la fenêtre pop-up qui vient de s'ouvrir (ou en cliquant sur le bouton *Edit Simulation Settings* directement à droite du bouton *New Simulatiuon*)
+   
+   Une fenêtre pop-up s'ouvre alors
+4. Dans cette fenêtre
+   - Sélectionnez *AC/sweep noise*
+   - [x] Cochez *General Settings*
+   - [x] *Logarithmic*
+   - `10` dans *Start Frequency*
+   - `100k` dans *End Frequency*
+   - `1000` dans *Points/Decade*
+   - Enfin, cliquez sur *OK*
 
-```
-* source STRI
-R_R1         IN OUT  10K  
-C_C1         0 OUT  10n  
-V_V1         IN 0 DC 0Vdc AC 1Vac 
-```
+5. Dans la barre d'état, cliquez sur le menu *PSpice* > *Create Netlist*. Si **tout est bon**, alors **rien ne va s'afficher**. C'est normal
+6. De la même manière, cliquez sur *View Netlist*. La sortie devrait être la même que celle-ci (l'ordre des lignes importe peu):
 
-On peut ensuite cliquer sur Run, et on obtient une fenetre affichant un graphe de fréquence
+   ```
+   * source STRI
+   R_R1         IN OUT  10K  
+   C_C1         0 OUT  10n  
+   V_V1         IN 0 DC 0Vdc AC 1Vac 
+   ```
+7. Fermez cette sous-fenêtre, puis cliquez sur le bouton *Run PSpice* désigné par un icone "Play"
 
-On va ensuite dans Trace > Add trace
-On écrit alors cette formule
+   Une fenêtre pop-up s'ouvre alors, nous affichant un graphe de fréquence vide.
+8. Pour remplir ce graphe, cliquez sur le bouton *Add Trace* (désigné par une courbe en dent de scie)
+9. Dans la nouvelle fenêtre, section *Trace Expression*, copiez l'expression suivante, puis cliquez sur *OK*
+    ```
+    db(V(OUT)/V(IN))
+    ```
 
-db(V(OUT)/V(IN))
+On obtient alors le résultat final suivant :
+![Courbe finale](src/courbe.png)
 
-On obtient une sorte de courbe logarithmique décroissante
+### Bonus : Manipulations d'analyse et de comparaisons de courbes
 
-Note : double cliquer sur les axes permet de les éditer
-
-L'option Toggle curseur permet de parcourir en laissant cliquer la courbe et de voir les valeurs affihcées
-
-Dans le menu Plot, on peut rajouter axe et fenêtre (rajoutons par exemple un axe Y)
-Les deux flèches désigne l'axe sélectionné
-
-Sur le deuxième Axe, on peut aller dans Trace puis tracer la courbe V(OUT)
+- L'icone *Toggle cursor* représenté par un curseur sur une courbe permet, en laissant le clic gauche de la souris enfoncé, de faire apparaitre une fenêtre caractérisant les différents points survolés de notre courbe
+- Il est possible de double cliquer sur les axes pour les éditer
+- Dans le menu *Plot*, on peut rajouter un axe
+  - Rajoutons par exemple un axe Y
+  - Deux chevrons `>>` désignent alors l'axe sélectionné
+  - Sélectionnez donc l'axe nouvellement créé, ajoutez une trace de la courbe `V(out)` comme vu précédemment, vous pouvez alors comparer ces deux courbes
