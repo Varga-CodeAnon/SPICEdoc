@@ -1,12 +1,3 @@
----
-title: Séance de TP1 - Spice, installation et prise en main
-date: 2020-11-02 10:00:00
-tags:
-- stri
-- propagation
-- cours
----
-
 # Séance de TP1 - Spice, installation et prise en main
 
 ## Sommaire
