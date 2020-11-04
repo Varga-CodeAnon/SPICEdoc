@@ -19,6 +19,7 @@ tags:
   - [Découverte des composants](#découverte-des-composants)
   - [Entrainement](#entrainement)
     - [Recopiez le schéma suivant](#recopiez-le-schéma-suivant)
+    - [Simulation](#simulation)
 
 ## Installation
 
@@ -80,9 +81,20 @@ Sur le bandeau de droite, cliqué sur l'icone qui ressemble à une prise (le sec
 
 ## Entrainement 
 ### Recopiez le schéma suivant
+![Schéma du TP1](src/schema.png)
 
-Creez le schéma suivant
+L'idée est de recréer ce schéma. Pour se faire :
+1. Dans un premier temps, placez les composants comme vu précédemment sans vous soucier de leur valeur (les composants sont `VAC/SOURCE`, `R`, `C` et `0` dans le menu *ground*).
+   > Pensez à les orienter correctement
+2. Reliez les composants
+3. En double cliquant sur les composants, éditez les noms et les valeurs pour les faire correspondre scrupuleusement au schéma
+4. Ajouter deux *alias* IN et OUT sur la ligne de par et d'autre de la résistance
+   
+   Pour se faire, cliquez sur le bouton `N1` de la barre d'outils de droite, nommez l'alias *IN*, puis placez le sur la ligne. Relachez l'alias avec la touche échap, puis recommencez pour l'alias *OUT*
 
+> Pensez à sauvegarder régulièrement
+
+### Simulation
 Puis, New simulation, donner un nom de cours, et éditer les propriétés de simulation
 
 On choisit AC/sweep noise
