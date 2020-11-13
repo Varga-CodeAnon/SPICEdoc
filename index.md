@@ -16,9 +16,9 @@
   - [Initialisation](#initialisation)
   - [Réalisation du schéma du circuit](#réalisation-du-schéma-du-circuit)
   - [Simulation](#simulation-1)
-  - [Disgression](#disgression)
   - [Étude de courbe et autres calculs](#étude-de-courbe-et-autres-calculs)
     - [S'éviter le curseur pour les calculs graphique](#séviter-le-curseur-pour-les-calculs-graphique)
+  - [Variation des composants](#variation-des-composants)
 
 ## Installation
 
@@ -185,11 +185,6 @@ Tracez alors la courbe suivante modélisant l'intensité du courant de notre sch
 Ce sera cette courbe que nous étudierons par la suite.
 ![Courbe d'intensité](https://raw.githubusercontent.com/Varga-CodeAnon/SPICEdoc/main/src/intensité.png)
 
-## Disgression
-
-Il est à noter qu'il est tout à fait possible d'attribuer des *paramètres* aux composants plutôt que de leur inscrire une valeur sur le schéma. On peut alors ainsi faire varier nos paramètres pour étudier l'évolution de notre circuit en fonction de ces dits paramètres.
-
-Pour ce faire, vous pouvez vous référer à ce [google doc](https://docs.google.com/document/d/1Rf_Mh_lS3MIjcrcaTI8NSvrAeuNRT2TdgmxfVuI_fcA/edit#heading=h.lzgi12kgni02)
 
 ## Étude de courbe et autres calculs 
 
@@ -237,3 +232,31 @@ Pour ce faire, vous pouvez vous référer à ce [google doc](https://docs.google
    2. Rajoutez `,1` dans la paranthèse de sortes à ce que vous ayez la fonction suivante : `CenterFreq(I(R1),1)`, puis appuyez sur Ok
    3. On obtient alors la valeur dans une fenêtre pop-up
 3. Pour trouver le delta(f0), même procédé de manière à obtenir l'équation suivante : `BPBW(I(R1),3)`
+
+## Variation des composants
+
+Dans le schéma, tout est stable : on appelle cela le cas nominal.Cependant, en conditions réelles, il y a un écart à l’idéalité.  Par exemple, j’envoie un satellite dans l'espace. Une face du satellite vers le soleil, l’autre à l’ombre. La température varie. Donc il faut observer les conséquences de ces éléments sur le composant. 
+
+C’est pour cela que l’on va modifier la valeur des élements, notamment R et L (et donc Q)
+
+1. Pour R, modifiez la valeur `470` en `{Rvar}`
+   > Note : les accolades sont importantes !
+2. Allez dans le menu permettant d'ajouter un nouveau composant, cliquez sur *SPECIAL* dans les librairies, puis sur *PARAM* dans le menu déroulant *Part List*
+3. En double-cliquant sur le composant *PARAM* placé, on arrive sur une nouvelle sous-fenêtre. Pour créer une nouvelle variable, cliquez sur *New Column*, et nommez la Rvar
+4. Inscrivez-y la valeur 470
+5. Faites un clic droit sur la colonne > *Display* > *Name and value*
+6. Revenuez sur la valeur principale, on voit alors s'afficher *Rvar = 470* dans le composant paramètre
+7. Pour faire varier la courbe associé à ce circuit, allez dans le menu *PSpice* > *Edit Simulation Profile*
+8. [x] Cochez *Parametric Sweep*
+9. Dans la fenêtre *Sweep type*, rentrez les valeurs suivantes
+   - [x] Value list : `47 100 470`
+   - Start value : 100
+   - End value : 600
+   - Increment : 100
+   - [x] Global parameter : Rvar
+10. Appuyez sur *Ok*, puis lancez la simulation
+11. Une fenêtre pop-up s'affiche donc, désignant 3 courbes
+    
+    Vous devriez alors voir les courbes suivantes :
+
+    ![3 courbes](https://raw.githubusercontent.com/Varga-CodeAnon/SPICEdoc/main/src/3courbes.png)
