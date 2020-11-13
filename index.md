@@ -260,3 +260,9 @@ C’est pour cela que l’on va modifier la valeur des élements, notamment R et
     Vous devriez alors voir les courbes suivantes :
 
     ![3 courbes](https://raw.githubusercontent.com/Varga-CodeAnon/SPICEdoc/main/src/3courbes.png)
+
+    > N'hésitez pas à changer les valeurs des axes pour zoomer/dézoomer les courbes (par exemple 150Hz-300Hz sur l'axe des abscisses)
+
+    > Pour connaitre les paramètres que représentent la courbe, faites un clic droit dessus > *Information*. Le paramètre est alors donné par la ligne *Step param Rvar = 47*
+
+    > Supposons vous ne voulez tracer que la courbe 47 Ohm, alors écrivez dans la fenêtre Trace Plot la formule suivante `I(R1)@1`, ou 1 représente la première valeur spécifiée dans les options de simulation (donc ici 47)
