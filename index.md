@@ -12,6 +12,13 @@
     - [Recopiez le schéma suivant](#recopiez-le-schéma-suivant)
     - [Simulation](#simulation)
     - [Bonus : Manipulations d'analyse et de comparaisons de courbes](#bonus--manipulations-danalyse-et-de-comparaisons-de-courbes)
+- [Séance de TP2 & 3 - Impédence & analyse de courbe](#séance-de-tp2--3---impédence--analyse-de-courbe)
+  - [Initialisation](#initialisation)
+  - [Réalisation du schéma du circuit](#réalisation-du-schéma-du-circuit)
+  - [Simulation](#simulation-1)
+  - [Disgression](#disgression)
+  - [Étude de courbe et autres calculs](#étude-de-courbe-et-autres-calculs)
+    - [S'éviter le curseur pour les calculs graphique](#séviter-le-curseur-pour-les-calculs-graphique)
 
 ## Installation
 
@@ -137,3 +144,96 @@ On obtient alors le résultat final suivant :
   - Rajoutons par exemple un axe Y
   - Deux chevrons `>>` désignent alors l'axe sélectionné
   - Sélectionnez donc l'axe nouvellement créé, ajoutez une trace de la courbe `V(out)` comme vu précédemment, vous pouvez alors comparer ces deux courbes
+
+# Séance de TP2 & 3 - Impédence & analyse de courbe
+
+## Initialisation
+1. Ouvrez le *Project Manager* pour afficher l'arborescence du projet
+2. Créez une shématique TP2, contenant une unique page. Vous placerez la schématique en *root* après avoir sauvegardé. Enfin, double cliquez sur la page pour commencer à travailler
+
+## Réalisation du schéma du circuit
+
+De la même manière que dans le chapitre précédent, réalisez le schéma suivant :
+
+![Schéma n°2](https://raw.githubusercontent.com/Varga-CodeAnon/SPICEdoc/main/src/exo2.png)
+
+> Encore une fois, faites en sortes que votre schéma soit identique, y compris alias, noms de composants et valeurs !
+
+> Note : Tous les composants (sauf les masses) sont issues de la librairie *ANALOG*
+
+## Simulation
+De la même manière que dans le chapitre précédent, réalisez la simulation du schéma précédent avec comme options :
+   - Sélectionnez *AC/sweep noise*
+   - [x] Cochez *General Settings*
+   - [x] *Linear*
+   - `10` dans *Start Frequency*
+   - `500` dans *End Frequency*
+   - `1000` dans *Points/Decade*
+   - Enfin, cliquez sur *OK*
+
+On obtient la *View List* suivante :
+   ```
+   * source STRI
+   V_V1         IN 0 DC 0Vdc AC 5Vac
+   L_L1         N000670 OUT 1
+   C_C1         0 OUT  470n 
+   R_R1         IN N000670  470  
+   ```
+
+Tracez alors la courbe suivante modélisant l'intensité du courant de notre schéma :
+
+Ce sera cette courbe que nous étudierons par la suite.
+![Courbe d'intensité](https://raw.githubusercontent.com/Varga-CodeAnon/SPICEdoc/main/src/intensité.png)
+
+## Disgression
+
+Il est à noter qu'il est tout à fait possible d'attribuer des *paramètres* aux composants plutôt que de leur inscrire une valeur sur le schéma. On peut alors ainsi faire varier nos paramètres pour étudier l'évolution de notre circuit en fonction de ces dits paramètres.
+
+Pour ce faire, vous pouvez vous référer à ce [google doc](https://docs.google.com/document/d/1Rf_Mh_lS3MIjcrcaTI8NSvrAeuNRT2TdgmxfVuI_fcA/edit#heading=h.lzgi12kgni02)
+
+## Étude de courbe et autres calculs 
+
+![Schéma](https://raw.githubusercontent.com/Varga-CodeAnon/SPICEdoc/main/src/courbe2.png)
+
+1. Calculez la fréquence f0
+   > Objectif : Déterminer la fréquence à laquelle nous avons un maximum d'intensité
+
+   *Manière algébrique :*
+   - On sait que le nombre complexe Z vaut R + j(Lw-1/Cw)
+   
+     Ici, on simplifiera l'impédence des composants en les nommant XL et XC.
+   - Le module de Z, ou l'impédence Z, vaut alors sqrt(R^2+(XL-XC)^2)
+   - A la résonnance, Z ne dépend plus de la fréquence, I et V sont en phase. On a alors Z qui devient résistive : Z = R, ce qui implique XL=XC
+   - Or jLw0=1/(jCw0) => w0^2 = 1/LC => w0 = 1/(sqrt(LC))
+   - Or w0 = 2pif0
+   - Donc f0 = 1/(2pi*sqrt(LC))
+   
+   En intégrant les valeurs numériques, on obtient alors environ 232Hz
+
+   *Manière graphique :* 
+   - Avec l'option *Toggle cursor* et un clic driot maintenu, parcourez la courbe jusqu'à son maximum, et vérifiez alors la valeur de la fréquence f0 pour l'intensité maximale, soit 10mA
+
+2. Calculez le coefficient de qualité (appelé aussi coefficient de surintensité)
+   > Objectif : Déterminer le maximum de la courbe. Ces données nous permettront de calculer la puissance
+
+   *Manière algébrique :*
+   - Le coefficient de qualité Q vaut f0/delta(f0) 
+     > Il peut aussi valoir Lw0/R ; 1/Rcw0 ; ou encore (1/R)*(sqrt(L/C)), pratique pour éliminer le w0
+   - Or par définition, delta(f0) représente la bande de fréquence qui correspond à -3dB du max de la courbe (rappel : -3dB correspond à 0,707, soit 1/sqrt(2))
+   - Autrement dit, il s'agit de la différence d'abscisses entre les deux points de la courbe aux coordonnées Imax/sqrt(2) (cela correspond à la double flèche violette du schéma ci-dessus)
+   - Une fois le delta calculé, il suffit alors de diviser la valeur de f(0) déterminée précédemment pour obtenir la valeur de Q
+
+   > Q pouvait aussi se calculer 
+   En intégrant les valeurs numérique, on trouve que pour la fréquence f(0), Q = 3,1
+
+   *Manière graphique pour le delta(f0):*
+   - 10mA/sqrt(2) = 7,52
+   - Relevez les valeurs de fréquences aux deux points d'intensité 7,52mA et soustrayez-les, ce qui revient à trouver aux alentours de 75Hz
+
+### S'éviter le curseur pour les calculs graphique
+1. Allez dans le menu *Trace*, *Eval-Functions*
+2. Pour trouver f(0), cliquez sur la troisième ligne de la colonne de droite : *Center frequency*
+   1. Ensuite, dans la colonne de gauche, cliquez sur I(R1). 
+   2. Rajoutez `,1` dans la paranthèse de sortes à ce que vous ayez la fonction suivante : `CenterFreq(I(R1),1)`, puis appuyez sur Ok
+   3. On obtient alors la valeur dans une fenêtre pop-up
+3. Pour trouver le delta(f0), même procédé de manière à obtenir l'équation suivante : `BPBW(I(R1),3)`
